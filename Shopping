@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    nav a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+    }
+    .container {
+      padding: 20px;
+    }
+    .product {
+      display: flex;
+      margin-bottom: 20px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .product img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+    .product-details h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .product-details p {
+      margin: 10px 0;
+      color: #555;
+    }
+    .chat-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    .chat-body {
+      flex-grow: 1;
+      padding: 10px;
+      overflow-y: auto;
+      max-height: 300px;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    .chat-input input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    .chat-input button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .chat-input button:hover {
+      background-color: #0056b3;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+    .profile-section, .help-section, .cart-section, .wishlist-section, .track-order-section, .return-policy-section {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .profile-section h2, .help-section h2, .cart-section h2, .wishlist-section h2, .track-order-section h2, .return-policy-section h2 {
+      margin-top: 0;
+    }
+    .profile-info, .cart-item, .wishlist-item {
+      margin-bottom: 10px;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .rating {
+      color: gold;
+      font-size: 18px;
+    }
+    .review {
+      margin-top: 10px;
+    }
+    .language-selector {
+      margin-bottom: 20px;
+    }
+    .language-selector select {
+      padding: 5px;
+    }
+    .voice-search-button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .voice-search-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">MyShop</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#cart">Cart</a>
+      <a href="#wishlist">Wishlist</a>
+      <a href="#track-order">Track Order</a>
+      <a href="#profile">Profile</a>
+      <a href="#help">Help</a>
+      <a href="#login">Login</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Welcome to MyShop</h1>
+    <p>Your one-stop destination for quality products!</p>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <label for="language">Select Language:</label>
+      <select id="language" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+      </select>
+    </div>
+
+    <!-- Search Bar with Voice Search -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search for products..." onkeyup="searchProducts()">
+      <button class="voice-search-button" onclick="startVoiceSearch()">🎤 Voice Search</button>
+    </div>
+
+    <!-- Featured Products -->
+    <section id="products">
+      <h2>Featured Products</h2>
+      <div class="product">
+        <img src="https://via.placeholder.com/150" alt="Product 1">
+        <div class="product-details">
+          <h3>Product Name 1</h3>
+          <p>This is a description of the product. It's amazing and you should buy it!</p>
+          <p><strong>$19.99</strong></p>
+          <div class="rating">
+            ★★★★☆
+          </div>
+          <button onclick="addToCart('Product Name 1', 19.99)">Add to Cart</button>
+          <button onclick="addToWishlist('Product Name 1')">Add to Wishlist</button>
+          <div class="review">
+            <strong>Reviews:</strong>
+            <p>"Great product! Highly recommend it." - User1</p>
+          </div>
+        </div>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150" alt="Product 2">
+        <div class="product-details">
+          <h3>Product Name 2</h3>
+          <p>This is another great product with a detailed description.</p>
+          <p><strong>$29.99</strong></p>
+          <div class="rating">
+            ★★★☆☆
+          </div>
+          <button onclick="addToCart('Product Name 2', 29.99)">Add to Cart</button>
+          <button onclick="addToWishlist('Product Name 2')">Add to Wishlist</button>
+          <div class="review">
+            <strong>Reviews:</strong>
+            <p>"Good quality but could be better." - User2</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wishlist Section -->
+    <section class="wishlist-section" id="wishlist">
+      <h2>Your Wishlist</h2>
+      <div id="wishlist-items">
+        <!-- Wishlist items will appear here -->
+      </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section" id="cart">
+      <h2>Your Cart</h2>
+      <div id="cart-items">
+        <!-- Cart items will appear here -->
+      </div>
+      <button onclick="checkout()">Checkout</button>
+    </section>
+
+    <!-- Track Your Order Section -->
+    <section class="track-order-section" id="track-order">
+      <h2>Track Your Order</h2>
+      <input type="text" id="order-id" placeholder="Enter Order ID">
+      <button onclick="trackOrder()">Track</button>
+      <div id="order-status"></div>
+    </section>
+
+    <!-- Return & Refund Policy -->
+    <section class="return-policy-section">
+      <h2>Return & Refund Policy</h2>
+      <p>Returns are accepted within 30 days of purchase. Items must be in original condition with tags attached. Refunds will be processed within 5-7 business days after we receive the returned item.</p>
+    </section>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+      <h2>Profile Section</h2>
+      <div class="profile-info">
+        <strong>Name:</strong> John Doe
+      </div>
+      <div class="profile-info">
+        <strong>Email:</strong> johndoe@example.com
+      </div>
+      <div class="profile-info">
+        <strong>Phone:</strong> +123 456 7890
+      </div>
+      <button onclick="alert('Edit Profile functionality will be implemented here.')">Edit Profile</button>
+    </section>
+
+    <!-- Help & Customer Service -->
+    <section class="help-section">
+      <h2>Help & Customer Service</h2>
+      <div class="help-item">
+        <strong>Order Issues?</strong>
+        <p>Contact us at <a href="mailto:support@myshop.com">support@myshop.com</a></p>
+      </div>
+      <div class="help-item">
+        <strong>Need Assistance?</strong>
+        <p>Call our support team at <a href="tel:+1234567890">+123 456 7890</a></p>
+      </div>
+      <div class="help-item">
+        <strong>Frequently Asked Questions (FAQ)</strong>
+        <p>Visit our <a href="#faq">FAQ page</a> for answers to common questions.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2023 MyShop. All rights reserved.
+  </footer>
+
+  <script>
+    // Simulated cart and wishlist functionality
+    let cart = [];
+    let wishlist = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCart();
+      alert(`${name} added to cart!`);
+    }
+
+    function updateCart() {
+      const cartItemsDiv = document.getElementById('cart-items');
+      cartItemsDiv.innerHTML = '';
+      cart.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.textContent = `${item.name} - $${item.price}`;
+        cartItemsDiv.appendChild(itemDiv);
+      });
+    }
+
+    function addToWishlist(name) {
+      wishlist.push(name);
+      updateWishlist();
+      alert(`${name} added to wishlist!`);
+    }
+
+    function updateWishlist() {
+      const wishlistItemsDiv = document.getElementById('wishlist-items');
+      wishlistItemsDiv.innerHTML = '';
+      wishlist.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.textContent = item;
+        wishlistItemsDiv.appendChild(itemDiv);
+      });
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+      } else {
+        alert('Proceeding to checkout...');
+        cart = [];
+        updateCart();
+      }
+    }
+
+    // Simulated search functionality
+    function searchProducts() {
+      const query = document.getElementById('search-input').value.toLowerCase();
+      const products = document.querySelectorAll('.product');
+      products.forEach(product => {
+        const productName = product.querySelector('h3').textContent.toLowerCase();
+        if (productName.includes(query)) {
+          product.style.display = 'flex';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    }
+
+    // Simulated voice search functionality
+    function startVoiceSearch() {
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById('search-input').value = transcript;
+          searchProducts();
+        };
+
+        recognition.onerror = function(event) {
+          alert('Error occurred during voice recognition.');
+        };
+      } else {
+        alert('Voice search is not supported in this browser.');
+      }
+    }
+
+    // Simulated track order functionality
+    function trackOrder() {
+      const orderId = document.getElementById('order-id').value;
+      if (orderId) {
+        document.getElementById('order-status').textContent = `Order ${orderId} is being processed.`;
+      } else {
+        alert('Please enter an Order ID.');
+      }
+    }
+
+    // Simulated language change functionality
+    function changeLanguage() {
+      const selectedLanguage = document.getElementById('language').value;
+      alert(`Language changed to ${selectedLanguage.toUpperCase()}. Translation functionality will be implemented here.`);
+    }
+  </script>
+</body></html> uhs
